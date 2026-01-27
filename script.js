@@ -7,6 +7,37 @@ const supabase = window.supabase.createClient(
   supabaseKey
 );
 
+//🔐 FUNÇÃO DE CADASTRO (CRIA SENHA)
+async function cadastrar() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const teamName = document.getElementById("team_name").value;
+  const cpf = document.getElementById("cpf").value;
+  const whatsapp = document.getElementById("whatsapp").value;
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  // salva dados extras na tabela participants
+  await supabase.from("participants").insert({
+    id: data.user.id,
+    team_name: teamName,
+    cpf: cpf,
+    whatsapp: whatsapp,
+    cartola_team_id: 0
+  });
+
+  alert("Cadastro criado! Agora é só entrar.");
+}
+
+
 //🔑 LOGIN
 async function login() {
   const email = document.getElementById("email").value;
