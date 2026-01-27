@@ -1,0 +1,35 @@
+body {
+  background: #0f172a;
+  color: #e5e7eb;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+input, button {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 6px;
+  border: none;
+}
+
+button {
+  background: #22c55e;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+td {
+  padding: 8px;
+}
+
+.pago {
+  color: #22c55e;
+}
+
+.aguardando {
+  color: #ef4444;
+}
