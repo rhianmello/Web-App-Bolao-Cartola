@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bolão Cartola 2026</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <h1>🎩 Bolão Cartola 2026</h1>
+
+  <!-- LOGIN -->
+  <div id="login">
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" style="display:none">
+    <h2>Dashboard</h2>
+
+    <button onclick="gerarPix()">💸 Pagar Mensalidade</button>
+
+    <h3>Participantes</h3>
+    <table id="tabela"></table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
