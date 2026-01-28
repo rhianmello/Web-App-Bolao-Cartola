@@ -3,89 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <title>🎩 Bolão Cartola</title>
-
-  <link rel="icon" href="data:,">
-
-  <style>
-    body {
-      background: #0f172a;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: white;
-    }
-
-    .box {
-      background: #020617;
-      padding: 30px;
-      width: 320px;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 0 15px rgba(0,0,0,.6);
-    }
-
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      border: none;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: none;
-      border-radius: 4px;
-      background: #22c55e;
-      color: black;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .link {
-      margin-top: 10px;
-      font-size: 14px;
-      cursor: pointer;
-      color: #38bdf8;
-    }
-
-    #loading {
-      margin-top: 10px;
-    }
-
-    #message {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div class="box">
+
+  <div class="container">
     <h1>🎩 Bolão Cartola</h1>
 
     <input id="email" type="email" placeholder="E-mail" />
     <input id="password" type="password" placeholder="Senha" />
 
     <button id="btnLogin">Entrar</button>
+    <button id="btnRegister">Criar conta</button>
+
+    <a id="btnReset">Esqueci minha senha</a>
 
     <div id="loading"></div>
     <div id="message"></div>
-
-    <div class="link" onclick="window.location.href='cadastro.html'">
-      Criar conta
-    </div>
   </div>
 
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <!-- SUPABASE SDK (APENAS UMA VEZ) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- SEU SCRIPT -->
   <script src="script.js"></script>
 </body>
 </html>
