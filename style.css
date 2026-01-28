@@ -22,54 +22,32 @@ body {
   text-align: center;
 }
 
-h1 {
-  margin-bottom: 24px;
+input, button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: none;
 }
 
 input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 6px;
-  border: 1px solid #1e293b;
   background: #020617;
+  border: 1px solid #1e293b;
   color: #fff;
 }
 
 button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 8px;
-  border-radius: 6px;
-  border: none;
+  background: #22c55e;
   font-weight: bold;
   cursor: pointer;
 }
 
-button:first-of-type {
-  background: #22c55e;
-}
-
-button:last-of-type {
-  background: #2563eb;
-  color: #fff;
-}
-
-.link {
-  display: block;
-  margin-top: 12px;
-  font-size: 13px;
+#btnReset {
+  background: none;
   color: #94a3b8;
-  cursor: pointer;
-  text-decoration: underline;
+  font-size: 13px;
 }
 
 #loading {
-  margin-top: 15px;
   color: #facc15;
-}
-
-#message {
-  margin-top: 10px;
-  font-size: 14px;
 }
