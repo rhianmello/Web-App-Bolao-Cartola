@@ -1,37 +1,22 @@
-<script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
+const SUPABASE_URL = "https://sonyehnzr.supabase.co";
+const SUPABASE_ANON_KEY = "SUA_CHAVE_REAL";
 
-const supabase = createClient(
-"https://sonyehijeanzoccstnzr.supabase.co",
-"SUA_ANON_PUBLIC_KEY_AQUI"
-);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-
+// 🔐 Verifica se está logado
 const { data: { user } } = await supabase.auth.getUser();
-if (!user) window.location.href = "index.html";
 
+if (!user) {
+  window.location.href = "index.html";
+} else {
+  document.getElementById("userEmail").textContent =
+    `Logado como: ${user.email}`;
+}
 
-const { data, error } = await supabase
-.from("users")
-.select("email, pagou");
-
-
-const tbody = document.getElementById("users");
-data.forEach(u => {
-const tr = document.createElement("tr");
-tr.innerHTML = `<td>${u.email}</td><td>${u.pagou ? "✅" : "❌"}</td>`;
-tbody.appendChild(tr);
+// 🚪 Logout
+document.getElementById("logout").addEventListener("click", async () => {
+  await supabase.auth.signOut();
+  window.location.href = "index.html";
 });
-</script>
-
-
-<!-- ================= BANCO (SUPABASE SQL) ================= -->
-<!--
-create table users (
-id uuid references auth.users on delete cascade,
-email text,
-pagou boolean default false,
-primary key (id)
-);
--->
