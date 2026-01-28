@@ -15,7 +15,7 @@ document.getElementById("btnLogin").addEventListener("click", login);
 document.getElementById("btnRegister").addEventListener("click", register);
 document.getElementById("btnReset").addEventListener("click", resetPassword);
 
-// ENTER FUNCIONA
+// ENTER
 document.addEventListener("keydown", e => {
   if (e.key === "Enter") login();
 });
