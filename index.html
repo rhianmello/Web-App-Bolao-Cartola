@@ -1,27 +1,129 @@
+<!-- ================= LOGIN / CADASTRO (index.html) ================= -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>🎩 Bolão Cartola</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <script type="module" src="script.js"></script>
 </head>
 <body>
+  <h2>Entrar / Cadastrar</h2>
+  <form id="authForm">
+    <input id="email" type="email" placeholder="Email" required autocomplete="email" />
+    <input id="password" type="password" placeholder="Senha" required autocomplete="current-password" />
+    <button type="submit">Entrar</button>
+  </form>
 
-  <div class="container">
-    <h1>🎩 Bolão Cartola</h1>
-
-    <input id="email" type="email" placeholder="E-mail" autocomplete="email">
-    <input id="password" type="password" placeholder="Senha" autocomplete="current-password">
-
-    <button onclick="login()">Entrar</button>
-    <button onclick="register()">Criar conta</button>
-
-    <span class="link" onclick="resetPassword()">Esqueci minha senha</span>
-
-    <div id="loading"></div>
-    <div id="message"></div>
-  </div>
-
-  <script src="script.js"></script>
+  <button id="reset">Esqueci minha senha</button>
 </body>
 </html>
+
+<!-- ================= SCRIPT AUTH (script.js) ================= -->
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js";
+
+const SUPABASE_URL = "https://sonyehijeanzoccstnzr.supabase.co";
+const SUPABASE_ANON_KEY = "SUA_ANON_PUBLIC_KEY_AQUI";
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const form = document.getElementById("authForm");
+const resetBtn = document.getElementById("reset");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  // 1. tenta login
+  const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (!loginError) {
+    window.location.href = "dashboard.html";
+    return;
+  }
+
+  // 2. tenta cadastro
+  const { error: signUpError } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (signUpError) {
+    alert("Erro ao autenticar");
+  } else {
+    alert("Se for seu primeiro acesso, verifique o e-mail para confirmar.");
+  }
+});
+
+resetBtn.addEventListener("click", async () => {
+  const email = document.getElementById("email").value;
+  if (!email) return alert("Digite o e-mail");
+
+  await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + "/reset.html",
+  });
+
+  alert("Se existir, enviamos o e-mail de redefinição.");
+});
+</script>
+
+<!-- ================= DASHBOARD (dashboard.html) ================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel Geral</title>
+  <script type="module" src="dashboard.js"></script>
+</head>
+<body>
+  <h2>Usuários</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Pagou?</th>
+      </tr>
+    </thead>
+    <tbody id="users"></tbody>
+  </table>
+</body>
+</html>
+
+<!-- ================= DASHBOARD SCRIPT (dashboard.js) ================= -->
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js";
+
+const supabase = createClient(
+  "https://sonyehijeanzoccstnzr.supabase.co",
+  "SUA_ANON_PUBLIC_KEY_AQUI"
+);
+
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) window.location.href = "index.html";
+
+const { data, error } = await supabase
+  .from("users")
+  .select("email, pagou");
+
+const tbody = document.getElementById("users");
+data.forEach(u => {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `<td>${u.email}</td><td>${u.pagou ? "✅" : "❌"}</td>`;
+  tbody.appendChild(tr);
+});
+</script>
+
+<!-- ================= BANCO (SUPABASE SQL) ================= -->
+<!--
+create table users (
+  id uuid references auth.users on delete cascade,
+  email text,
+  pagou boolean default false,
+  primary key (id)
+);
+-->
