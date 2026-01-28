@@ -1,1 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>🎩 Bolão Cartola — Cadastro</title>
 
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Criar Conta</h1>
+
+    <input id="email" type="email" placeholder="E-mail">
+    <input id="password" type="password" placeholder="Senha (mín. 6 caracteres)">
+
+    <button id="btnRegister">Cadastrar</button>
+
+    <p class="link-text">
+      Já tem conta?
+      <a href="index.html">Voltar para login</a>
+    </p>
+
+    <div id="loading"></div>
+    <p id="message"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
