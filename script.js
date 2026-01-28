@@ -4,7 +4,7 @@ const supabase = window.supabase.createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE"
 );
 
-// ELEMENTOS (SE EXISTIREM NA PÁGINA)
+// ELEMENTOS (existem nas duas páginas)
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const message = document.getElementById("message");
@@ -17,7 +17,7 @@ if (btnLogin) {
     loading.textContent = "⏳ Entrando...";
     message.textContent = "";
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabaseClient.auth.signInWithPassword({
       email: email.value,
       password: password.value
     });
@@ -29,7 +29,7 @@ if (btnLogin) {
       message.textContent = "E-mail ou senha inválidos";
     } else {
       message.style.color = "lime";
-      message.textContent = "Login realizado!";
+      message.textContent = "Login realizado com sucesso!";
     }
   });
 }
@@ -41,7 +41,7 @@ if (btnRegister) {
     loading.textContent = "⏳ Criando conta...";
     message.textContent = "";
 
-    const { error } = await supabase.auth.signUp({
+    const { error } = await supabaseClient.auth.signUp({
       email: email.value,
       password: password.value
     });
