@@ -1,4 +1,7 @@
 // 🔐 SUPABASE
+import { createClient } from '@supabase/supabase-js'
+const supabaseUrl = 'https://sonyehijeanzoccstnzr.supabase.co'
+const supabaseKey = process.env.SUPABASE_KEY
 const SUPABASE_URL = "https://sonyehijeanzoccstnzr.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE"
 ;
