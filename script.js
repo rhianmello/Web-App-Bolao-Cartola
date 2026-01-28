@@ -5,7 +5,62 @@ const supabase = createClient(
   const SUPABASE_URL = "https://sonyehijeanzoccstnzr.supabase.co",
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE"
 )
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+
+const form = document.getElementById("authForm");
+const resetBtn = document.getElementById("reset");
+
+
+form.addEventListener("submit", async (e) => {
+e.preventDefault();
+
+
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+
+
+// 1. tenta login
+const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+email,
+password,
+});
+
+
+if (!loginError) {
+window.location.href = "dashboard.html";
+return;
+}
+
+
+// 2. tenta cadastro
+const { error: signUpError } = await supabase.auth.signUp({
+email,
+password,
+});
+
+
+if (signUpError) {
+alert("Erro ao autenticar");
+} else {
+alert("Se for seu primeiro acesso, verifique o e-mail para confirmar.");
+}
+});
+
+
+resetBtn.addEventListener("click", async () => {
+const email = document.getElementById("email").value;
+if (!email) return alert("Digite o e-mail");
+
+
+await supabase.auth.resetPasswordForEmail(email, {
+redirectTo: window.location.origin + "/reset.html",
+});
+
+
+alert("Se existir, enviamos o e-mail de redefinição.");
+});
+</script>
 
 
 // ELEMENTOS
