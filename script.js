@@ -6,6 +6,12 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+if (error) {
+  showError("E-mail ou senha inválidos");
+} else {
+  window.location.href = "dashboard.html";
+}
+
 // ELEMENTOS
 const form = document.getElementById("authForm");
 const emailInput = document.getElementById("email");
