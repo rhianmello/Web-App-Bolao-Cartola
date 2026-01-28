@@ -16,16 +16,17 @@
     <button id="btnLogin">Entrar</button>
     <button id="btnRegister">Criar conta</button>
 
-    <a id="btnReset">Esqueci minha senha</a>
+    <span id="btnReset">Esqueci minha senha</span>
 
     <div id="loading"></div>
     <div id="message"></div>
   </div>
 
-  <!-- SUPABASE SDK (APENAS UMA VEZ) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 🚨 NÃO USAR CDN GLOBAL -->
+  <!-- 🚨 NÃO DECLARAR SUPABASE NO WINDOW -->
 
-  <!-- SEU SCRIPT -->
-  <script src="script.js"></script>
+  <!-- JS COMO MODULE (OBRIGATÓRIO) -->
+  <script type="module" src="script.js"></script>
+
 </body>
 </html>
