@@ -9,84 +9,86 @@ const supabase = window.supabase.createClient(
   supabaseKey
 );
 
-// =====================
-// UTILIDADES DE UI
-// =====================
-function setFeedback(msg, type) {
-  const el = document.getElementById("feedback");
-  el.className = type;
-  el.innerText = msg;
+// ELEMENTOS
+const message = document.getElementById("message");
+const loading = document.getElementById("loading");
+
+function setLoading(status) {
+  loading.innerHTML = status ? "⏳ Processando..." : "";
 }
 
-function setLoading(loading) {
-  const btn = document.getElementById("btnLogin");
-  if (loading) {
-    btn.classList.add("loading");
-    btn.innerText = "Entrando...";
-    btn.disabled = true;
-  } else {
-    btn.classList.remove("loading");
-    btn.innerText = "Entrar";
-    btn.disabled = false;
-  }
+function showError(text) {
+  message.style.color = "#f87171";
+  message.innerText = text;
 }
 
-// =====================
-// LOGIN
-// =====================
+function showSuccess(text) {
+  message.style.color = "#4ade80";
+  message.innerText = text;
+}
+
+// 🔐 LOGIN
 async function login() {
-  setFeedback("", "");
   setLoading(true);
+  message.innerText = "";
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-
-  if (!email || !password) {
-    setFeedback("Preencha email e senha.", "error");
-    setLoading(false);
-    return;
-  }
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password
   });
 
-  if (error) {
-    // mensagens amigáveis
-    if (error.message.includes("Invalid login credentials")) {
-      setFeedback("Email ou senha incorretos.", "error");
-    } else {
-      setFeedback(error.message, "error");
-    }
-    setLoading(false);
-    return;
-  }
-
-  setFeedback("Login realizado com sucesso!", "success");
   setLoading(false);
 
-  // depois: window.location.href = "dashboard.html";
+  if (error) {
+    showError("❌ E-mail ou senha incorretos");
+  } else {
+    showSuccess("✅ Login realizado com sucesso!");
+  }
 }
 
-// =====================
-// RESET DE SENHA
-// =====================
-async function resetarSenha() {
-  setFeedback("", "");
+// 📝 CADASTRO
+async function register() {
+  setLoading(true);
+  message.innerText = "";
 
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password
+  });
+
+  setLoading(false);
+
+  if (error) {
+    showError("❌ " + error.message);
+  } else {
+    showSuccess("📩 Cadastro feito! Verifique seu e-mail.");
+  }
+}
+
+// 🔁 RESET SENHA
+async function resetPassword() {
   const email = document.getElementById("email").value;
 
   if (!email) {
-    setFeedback("Digite seu email para redefinir a senha.", "error");
+    showError("Informe seu e-mail para redefinir a senha.");
     return;
   }
 
+  setLoading(true);
+
   const { error } = await supabase.auth.resetPasswordForEmail(email);
 
+  setLoading(false);
+
   if (error) {
-    setFeedback(error.message, "error");
+    showError("Erro ao enviar e-mail de redefinição.");
   } else {
-    setFeedback("Email de redefinição enviado!", "success");
+    showSuccess("📩 Enviamos um link para seu e-mail.");
   }
 }
