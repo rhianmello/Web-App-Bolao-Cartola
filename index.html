@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<title>Login</title>
-<script type="module" src="script.js"></script>
+  <meta charset="UTF-8">
+  <title>🎩 Bolão Cartola</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h2>Entrar / Cadastrar</h2>
-<form id="authForm">
-<input id="email" type="email" placeholder="Email" required autocomplete="email" />
-<input id="password" type="password" placeholder="Senha" required autocomplete="current-password" />
-<button type="submit">Entrar</button>
-</form>
 
+  <div class="container">
+    <h1>🎩 Bolão Cartola</h1>
 
-<button id="reset">Esqueci minha senha</button>
+    <form id="authForm">
+      <input id="email" type="email" placeholder="E-mail" autocomplete="email" required>
+      <input id="password" type="password" placeholder="Senha" autocomplete="current-password" required>
+
+      <button type="submit">Entrar / Criar conta</button>
+    </form>
+
+    <button id="btnReset">Esqueci minha senha</button>
+
+    <div id="loading"></div>
+    <p id="message"></p>
+  </div>
+
+  <!-- ⚠️ TEM QUE SER MODULE -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
