@@ -1,8 +1,9 @@
-// 🔑 SUPABASE (DECLARADO UMA ÚNICA VEZ)
-const supabase = window.supabase.createClient(
+// 🔐 SUPABASE
+const supabase = createClient(
   "https://sonyehijeanzoccstnzr.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE"
 );
+
 // ELEMENTOS
 const email = document.getElementById("email");
 const password = document.getElementById("password");
@@ -10,11 +11,16 @@ const message = document.getElementById("message");
 const loading = document.getElementById("loading");
 
 // BOTÕES
-document.getElementById("btnLogin").onclick = login;
-document.getElementById("btnRegister").onclick = register;
-document.getElementById("btnReset").onclick = resetPassword;
+document.getElementById("btnLogin").addEventListener("click", login);
+document.getElementById("btnRegister").addEventListener("click", register);
+document.getElementById("btnReset").addEventListener("click", resetPassword);
 
-// FUNÇÕES DE UI
+// ENTER FUNCIONA
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter") login();
+});
+
+// UI
 function setLoading(text = "") {
   loading.textContent = text;
 }
@@ -34,7 +40,7 @@ async function login() {
   message.textContent = "";
   setLoading("⏳ Entrando...");
 
-  const { error } = await supabaseClient.auth.signInWithPassword({
+  const { error } = await supabase.auth.signInWithPassword({
     email: email.value,
     password: password.value
   });
@@ -53,7 +59,7 @@ async function register() {
   message.textContent = "";
   setLoading("⏳ Criando conta...");
 
-  const { error } = await supabaseClient.auth.signUp({
+  const { error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value
   });
@@ -67,7 +73,7 @@ async function register() {
   }
 }
 
-// RESET DE SENHA
+// RESET
 async function resetPassword() {
   if (!email.value) {
     showError("Informe seu e-mail");
@@ -76,9 +82,7 @@ async function resetPassword() {
 
   setLoading("📩 Enviando e-mail...");
 
-  const { error } = await supabaseClient.auth.resetPasswordForEmail(
-    email.value
-  );
+  const { error } = await supabase.auth.resetPasswordForEmail(email.value);
 
   setLoading("");
 
