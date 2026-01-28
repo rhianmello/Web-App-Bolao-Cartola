@@ -4,24 +4,32 @@
   <meta charset="UTF-8">
   <title>Bolão Cartola</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- SUPABASE SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-  <h1>🎩 Bolão Cartola</h1>
+  <div class="container">
+    <h1>🎩 Bolão Cartola</h1>
 
-  <div class="box">
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Senha">
+    <div class="card">
+      <input id="email" placeholder="Email">
+      <input id="password" type="password" placeholder="Senha">
 
-    <button onclick="login()">Entrar</button>
+      <button id="btnLogin" onclick="login()">Entrar</button>
 
-    <div class="links">
-      <a onclick="resetarSenha()">Esqueci minha senha</a>
-      <a href="cadastro.html">Criar conta</a>
+      <div class="links">
+        <a onclick="resetarSenha()">Esqueci minha senha</a>
+        <a href="cadastro.html">Criar conta</a>
+      </div>
+
+      <!-- FEEDBACK -->
+      <div id="feedback"></div>
     </div>
   </div>
 
+  <!-- IMPORTANTE: script NO FINAL -->
   <script src="script.js"></script>
 </body>
 </html>
