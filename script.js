@@ -1,16 +1,53 @@
-//🔐 Conectar no Supabase
+// ⛔ MUITO IMPORTANTE: troque pelos dados reais
 const supabaseUrl = "https://SUA_URL.supabase.co";
 const supabaseKey = "SUA_CHAVE_PUBLICA";
 
+// cria o client DEPOIS do SDK carregar
 const supabase = window.supabase.createClient(
   supabaseUrl,
   supabaseKey
 );
 
-//🔐 FUNÇÃO DE CADASTRO (CRIA SENHA)
-async function cadastrar() {
+// =====================
+// CONTROLE DE TELAS
+// =====================
+function mostrarCadastro() {
+  document.getElementById("login-box").style.display = "none";
+  document.getElementById("cadastro-box").style.display = "block";
+}
+
+function mostrarLogin() {
+  document.getElementById("cadastro-box").style.display = "none";
+  document.getElementById("login-box").style.display = "block";
+}
+
+// =====================
+// LOGIN
+// =====================
+async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  document.getElementById("login-box").style.display = "none";
+  document.getElementById("dashboard").style.display = "block";
+}
+
+// =====================
+// CADASTRO
+// =====================
+async function cadastrar() {
+  const email = document.getElementById("email_cadastro").value;
+  const password = document.getElementById("password_cadastro").value;
   const teamName = document.getElementById("team_name").value;
   const cpf = document.getElementById("cpf").value;
   const whatsapp = document.getElementById("whatsapp").value;
@@ -25,65 +62,41 @@ async function cadastrar() {
     return;
   }
 
-  // salva dados extras na tabela participants
   await supabase.from("participants").insert({
     id: data.user.id,
     team_name: teamName,
-    cpf: cpf,
-    whatsapp: whatsapp,
-    cartola_team_id: 0
+    cpf,
+    whatsapp
   });
 
-  alert("Cadastro criado! Agora é só entrar.");
+  alert("Cadastro criado! Agora faça login.");
+  mostrarLogin();
 }
 
-
-//🔑 LOGIN
-async function login() {
+// =====================
+// RESET DE SENHA (EMAIL)
+// =====================
+async function resetarSenha() {
   const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if (error) {
-    alert("Erro no login");
+  if (!email) {
+    alert("Digite seu email primeiro");
     return;
   }
 
-  document.getElementById("login").style.display = "none";
-  document.getElementById("dashboard").style.display = "block";
+  const { error } = await supabase.auth.resetPasswordForEmail(email);
 
-  carregarTabela();
+  if (error) {
+    alert(error.message);
+  } else {
+    alert("Email de redefinição enviado!");
+  }
 }
 
-//📊 LISTAR PARTICIPANTES + STATUS
-
-async function carregarTabela() {
-  const { data } = await supabase
-    .from("payments")
-    .select("status, participants(team_name)");
-
-  let html = "";
-
-  data.forEach(p => {
-    html += `
-      <tr>
-        <td>${p.participants.team_name}</td>
-        <td class="${p.status === 'PAGO' ? 'pago' : 'aguardando'}">
-          ${p.status}
-        </td>
-      </tr>
-    `;
-  });
-
-  document.getElementById("tabela").innerHTML = html;
+// =====================
+// LOGOUT
+// =====================
+async function logout() {
+  await supabase.auth.signOut();
+  location.reload();
 }
-
-//💸 PIX (VERSÃO SIMPLES)
-function gerarPix() {
-  alert("Aqui vai abrir o QR Code PIX (Mercado Pago)");
-}
-
