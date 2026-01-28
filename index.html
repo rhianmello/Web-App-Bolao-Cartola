@@ -7,23 +7,23 @@
 </head>
 <body>
 
-  <div class="container">
-    <h1>🎩 Bolão Cartola</h1>
+<div class="container">
+  <h1>🎩 Bolão Cartola</h1>
 
-    <form id="authForm">
-      <input id="email" type="email" placeholder="E-mail" autocomplete="email" required>
-      <input id="password" type="password" placeholder="Senha" autocomplete="current-password" required>
+  <form id="loginForm">
+    <input id="email" type="email" placeholder="E-mail" autocomplete="email" required>
+    <input id="password" type="password" placeholder="Senha" autocomplete="current-password" required>
 
-      <button type="submit">Entrar / Criar conta</button>
-    </form>
+    <button type="submit" id="btnLogin">Entrar</button>
+  </form>
 
-    <button id="btnReset">Esqueci minha senha</button>
+  <button id="btnRegister">Criar conta</button>
+  <button id="btnReset">Esqueci minha senha</button>
 
-    <div id="loading"></div>
-    <p id="message"></p>
-  </div>
+  <div id="loading"></div>
+  <p id="message"></p>
+</div>
 
-  <!-- ⚠️ TEM QUE SER MODULE -->
-  <script type="module" src="script.js"></script>
+<script type="module" src="auth.js"></script>
 </body>
 </html>
