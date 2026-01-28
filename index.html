@@ -4,87 +4,22 @@
   <meta charset="UTF-8">
   <title>Bolão Cartola</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- SUPABASE SDK (OBRIGATÓRIO) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
   <h1>🎩 Bolão Cartola</h1>
 
-  <!-- LOGIN -->
-  <div id="login-box">
+  <div class="box">
     <input id="email" placeholder="Email">
     <input id="password" type="password" placeholder="Senha">
 
     <button onclick="login()">Entrar</button>
 
-    <p>
-      <a href="#" onclick="mostrarCadastro()">Criar conta</a> |
-      <a href="#" onclick="resetarSenha()">Esqueci minha senha</a>
-    </p>
-  </div>
-
-  <!-- CADASTRO -->
-  <div id="cadastro-box" style="display:none">
-    <input id="team_name" placeholder="Nome do Time">
-    <input id="cpf" placeholder="CPF">
-    <input id="whatsapp" placeholder="WhatsApp">
-    <input id="email_cadastro" placeholder="Email">
-    <input id="password_cadastro" type="password" placeholder="Senha">
-
-    <button onclick="cadastrar()">Cadastrar</button>
-    <button onclick="mostrarLogin()">Voltar</button>
-  </div>
-
-  <!-- DASHBOARD -->
-  <div id="dashboard" style="display:none">
-    <h2>Bem-vindo ao Bolão</h2>
-    <button onclick="logout()">Sair</button>
-  </div>
-
-  <!-- SEU JS SEM MODULE -->
-  <script src="script.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <title>Bolão Cartola 2026</title>
-  <link rel="stylesheet" href="style.css" />
-
-  <!-- Supabase SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
-<body>
-
-  <h1>🎩 Bolão Cartola 2026</h1>
-
-  <!-- LOGIN -->
-  <div id="login">
-  <h2>Acesso</h2>
-
-  <input id="team_name" placeholder="Nome do Time">
-  <input id="cpf" placeholder="CPF">
-  <input id="whatsapp" placeholder="WhatsApp">
-
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Senha">
-
-  <button onclick="cadastrar()">Cadastrar</button>
-  <button onclick="login()">Entrar</button>
-</div>
-
-
-  <!-- DASHBOARD -->
-  <div id="dashboard" style="display:none">
-    <h2>Dashboard</h2>
-
-    <button onclick="gerarPix()">💸 Pagar Mensalidade</button>
-
-    <h3>Participantes</h3>
-    <table id="tabela"></table>
+    <div class="links">
+      <a onclick="resetarSenha()">Esqueci minha senha</a>
+      <a href="cadastro.html">Criar conta</a>
+    </div>
   </div>
 
   <script src="script.js"></script>
