@@ -2,7 +2,7 @@
 // CONFIG SUPABASE
 // =====================
 const supabaseUrl = "https://sonyehijeanzoccstnzr.supabase.co";
-const supabaseKey = "sb_publishable_mkQzw6F4tTW_4WfU6wQ-6Q_6-u1p4bE";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE";
 
 const supabase = window.supabase.createClient(
   supabaseUrl,
