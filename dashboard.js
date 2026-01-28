@@ -5,7 +5,7 @@ const SUPABASE_ANON_KEY = "SUA_CHAVE_REAL";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 🔐 Verifica se está logado
+// PROTEÇÃO
 const { data: { user } } = await supabase.auth.getUser();
 
 if (!user) {
@@ -15,7 +15,7 @@ if (!user) {
     `Logado como: ${user.email}`;
 }
 
-// 🚪 Logout
+// LOGOUT
 document.getElementById("logout").addEventListener("click", async () => {
   await supabase.auth.signOut();
   window.location.href = "index.html";
