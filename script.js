@@ -1,3 +1,8 @@
+if (window.__SUPABASE_INIT__) {
+  throw new Error("Script carregado duas vezes");
+}
+window.__SUPABASE_INIT__ = true;
+
 // 🔑 SUPABASE (DECLARADO UMA ÚNICA VEZ)
 const supabase = window.supabase.createClient(
   "https://sonyehijeanzoccstnzr.supabase.co",
