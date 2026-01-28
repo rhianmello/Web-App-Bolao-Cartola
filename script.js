@@ -1,167 +1,80 @@
 // 🔐 SUPABASE
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-const supabase = createClient(
-  const SUPABASE_URL = "https://sonyehijeanzoccstnzr.supabase.co",
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE"
-)
+  const SUPABASE_URL = "https://sonyehijeanzoccstnzr.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE";
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-
-const form = document.getElementById("authForm");
-const resetBtn = document.getElementById("reset");
-
-
-form.addEventListener("submit", async (e) => {
-e.preventDefault();
-
-
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
-
-
-// 1. tenta login
-const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-email,
-password,
-});
-
-
-if (!loginError) {
-window.location.href = "dashboard.html";
-return;
-}
-
-
-// 2. tenta cadastro
-const { error: signUpError } = await supabase.auth.signUp({
-email,
-password,
-});
-
-
-if (signUpError) {
-alert("Erro ao autenticar");
-} else {
-alert("Se for seu primeiro acesso, verifique o e-mail para confirmar.");
-}
-});
-
-
-resetBtn.addEventListener("click", async () => {
-const email = document.getElementById("email").value;
-if (!email) return alert("Digite o e-mail");
-
-
-await supabase.auth.resetPasswordForEmail(email, {
-redirectTo: window.location.origin + "/reset.html",
-});
-
-
-alert("Se existir, enviamos o e-mail de redefinição.");
-});
-</script>
-
-
 // ELEMENTOS
-const emailEl = document.getElementById("email");
-const passwordEl = document.getElementById("password");
-const messageEl = document.getElementById("message");
-const loadingEl = document.getElementById("loading");
+const form = document.getElementById("authForm");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const message = document.getElementById("message");
+const loading = document.getElementById("loading");
+const btnReset = document.getElementById("btnReset");
 
-// HELPERS
-function setLoading(text = "") {
-  loadingEl.textContent = text;
+function setLoading(active) {
+  loading.textContent = active ? "⏳ Processando..." : "";
 }
 
-function showError(text) {
-  messageEl.style.color = "red";
-  messageEl.textContent = text;
+function show(text, ok = false) {
+  message.style.color = ok ? "lime" : "red";
+  message.textContent = text;
 }
 
-function showSuccess(text) {
-  messageEl.style.color = "lime";
-  messageEl.textContent = text;
-}
+// SUBMIT (ENTER FUNCIONA)
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  message.textContent = "";
 
-// LOGIN
-async function login() {
-  setLoading("⏳ Entrando...");
-  messageEl.textContent = "";
+  const email = emailInput.value;
+  const password = passwordInput.value;
 
-  const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": SUPABASE_ANON_KEY
-    },
-    body: JSON.stringify({
-      email: emailEl.value,
-      password: passwordEl.value
-    })
+  // tenta login
+  const { error: loginError } = await supabase.auth.signInWithPassword({
+    email,
+    password
   });
 
-  const data = await res.json();
-  setLoading("");
-
-  if (!res.ok) {
-    showError("E-mail ou senha inválidos");
-  } else {
-    showSuccess("Login realizado com sucesso!");
-    console.log("SESSION:", data);
-  }
-}
-
-// CADASTRO
-async function register() {
-  setLoading("⏳ Criando conta...");
-  messageEl.textContent = "";
-
-  const res = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": SUPABASE_ANON_KEY
-    },
-    body: JSON.stringify({
-      email: emailEl.value,
-      password: passwordEl.value
-    })
-  });
-
-  const data = await res.json();
-  setLoading("");
-
-  if (!res.ok) {
-    showError(data.error_description || "Erro ao cadastrar");
-  } else {
-    showSuccess("Conta criada! Verifique seu e-mail.");
-  }
-}
-
-// RESET SENHA
-async function resetPassword() {
-  if (!emailEl.value) {
-    showError("Informe seu e-mail");
+  if (!loginError) {
+    setLoading(false);
+    show("Login realizado!", true);
     return;
   }
 
-  setLoading("📩 Enviando e-mail...");
-
-  const res = await fetch(`${SUPABASE_URL}/auth/v1/recover`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": SUPABASE_ANON_KEY
-    },
-    body: JSON.stringify({ email: emailEl.value })
+  // se falhar, tenta cadastro
+  const { error: registerError } = await supabase.auth.signUp({
+    email,
+    password
   });
 
-  setLoading("");
+  setLoading(false);
 
-  if (!res.ok) {
-    showError("Erro ao enviar e-mail");
+  if (registerError) {
+    show("Senha incorreta ou erro no acesso");
   } else {
-    showSuccess("E-mail de redefinição enviado!");
+    show("Se for seu primeiro acesso, verifique seu e-mail.", true);
   }
-}
+});
+
+// RESET SENHA
+btnReset.addEventListener("click", async () => {
+  if (!emailInput.value) {
+    show("Informe seu e-mail");
+    return;
+  }
+
+  setLoading(true);
+
+  const { error } = await supabase.auth.resetPasswordForEmail(emailInput.value);
+
+  setLoading(false);
+
+  if (error) {
+    show("Erro ao enviar e-mail");
+  } else {
+    show("E-mail de redefinição enviado!", true);
+  }
+});
