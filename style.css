@@ -1,65 +1,96 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
-  background: #0f172a;
-  font-family: Arial, sans-serif;
+  background: #0f172a; /* dark */
+  color: #e5e7eb;
+  height: 100vh;
+  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  color: #fff;
 }
 
 .container {
   background: #020617;
   padding: 30px;
+  width: 100%;
+  max-width: 360px;
   border-radius: 12px;
-  width: 320px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
   text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,.5);
 }
 
-h1 {
-  margin-bottom: 20px;
+.container h1 {
+  margin-bottom: 25px;
+  font-size: 22px;
 }
 
 input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
   border-radius: 6px;
   border: none;
+  background: #020617;
+  color: #fff;
+  border: 1px solid #1e293b;
+}
+
+input:focus {
+  outline: none;
+  border-color: #22c55e;
 }
 
 button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-top: 8px;
-  border: none;
   border-radius: 6px;
-  cursor: pointer;
-  background: #22c55e;
+  border: none;
   font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-button.secondary {
-  background: #3b82f6;
+#btnLogin {
+  background: #22c55e;
+  color: #020617;
 }
 
-button.link {
+#btnLogin:hover {
+  background: #16a34a;
+}
+
+#btnRegister {
+  background: #2563eb;
+  color: #fff;
+}
+
+#btnRegister:hover {
+  background: #1d4ed8;
+}
+
+#btnReset {
   background: transparent;
-  color: #93c5fd;
-  margin-top: 12px;
+  color: #94a3b8;
+  font-size: 13px;
+  margin-top: 10px;
 }
 
-button:hover {
-  opacity: 0.9;
+#btnReset:hover {
+  color: #e5e7eb;
 }
 
 #loading {
-  margin-top: 10px;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #facc15;
 }
 
 #message {
   margin-top: 12px;
-  color: #f87171;
+  font-size: 14px;
 }
-
