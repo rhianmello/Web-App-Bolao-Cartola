@@ -1,92 +1,105 @@
 // 🔐 SUPABASE
-const supabase = createClient(
-  "https://sonyehijeanzoccstnzr.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE"
-);
+const SUPABASE_URL = "https://sonyehijeanzoccstnzr.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE"
+;
 
 // ELEMENTOS
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const message = document.getElementById("message");
-const loading = document.getElementById("loading");
+const emailEl = document.getElementById("email");
+const passwordEl = document.getElementById("password");
+const messageEl = document.getElementById("message");
+const loadingEl = document.getElementById("loading");
 
-// BOTÕES
-document.getElementById("btnLogin").addEventListener("click", login);
-document.getElementById("btnRegister").addEventListener("click", register);
-document.getElementById("btnReset").addEventListener("click", resetPassword);
-
-// ENTER
-document.addEventListener("keydown", e => {
-  if (e.key === "Enter") login();
-});
-
-// UI
+// HELPERS
 function setLoading(text = "") {
-  loading.textContent = text;
+  loadingEl.textContent = text;
 }
 
 function showError(text) {
-  message.style.color = "red";
-  message.textContent = text;
+  messageEl.style.color = "red";
+  messageEl.textContent = text;
 }
 
 function showSuccess(text) {
-  message.style.color = "lime";
-  message.textContent = text;
+  messageEl.style.color = "lime";
+  messageEl.textContent = text;
 }
 
 // LOGIN
 async function login() {
-  message.textContent = "";
   setLoading("⏳ Entrando...");
+  messageEl.textContent = "";
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": SUPABASE_ANON_KEY
+    },
+    body: JSON.stringify({
+      email: emailEl.value,
+      password: passwordEl.value
+    })
   });
 
+  const data = await res.json();
   setLoading("");
 
-  if (error) {
+  if (!res.ok) {
     showError("E-mail ou senha inválidos");
   } else {
     showSuccess("Login realizado com sucesso!");
+    console.log("SESSION:", data);
   }
 }
 
 // CADASTRO
 async function register() {
-  message.textContent = "";
   setLoading("⏳ Criando conta...");
+  messageEl.textContent = "";
 
-  const { error } = await supabase.auth.signUp({
-    email: email.value,
-    password: password.value
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": SUPABASE_ANON_KEY
+    },
+    body: JSON.stringify({
+      email: emailEl.value,
+      password: passwordEl.value
+    })
   });
 
+  const data = await res.json();
   setLoading("");
 
-  if (error) {
-    showError(error.message);
+  if (!res.ok) {
+    showError(data.error_description || "Erro ao cadastrar");
   } else {
     showSuccess("Conta criada! Verifique seu e-mail.");
   }
 }
 
-// RESET
+// RESET SENHA
 async function resetPassword() {
-  if (!email.value) {
+  if (!emailEl.value) {
     showError("Informe seu e-mail");
     return;
   }
 
   setLoading("📩 Enviando e-mail...");
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email.value);
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/recover`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": SUPABASE_ANON_KEY
+    },
+    body: JSON.stringify({ email: emailEl.value })
+  });
 
   setLoading("");
 
-  if (error) {
+  if (!res.ok) {
     showError("Erro ao enviar e-mail");
   } else {
     showSuccess("E-mail de redefinição enviado!");
