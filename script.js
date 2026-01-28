@@ -1,29 +1,12 @@
-// ⛔ MUITO IMPORTANTE: troque pelos dados reais
-const supabaseUrl = "https://SUA_URL.supabase.co";
-const supabaseKey = "SUA_CHAVE_PUBLICA";
+const supabaseUrl = "https://sonyehijeanzoccstnzr.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE";
 
-// cria o client DEPOIS do SDK carregar
 const supabase = window.supabase.createClient(
   supabaseUrl,
   supabaseKey
 );
 
-// =====================
-// CONTROLE DE TELAS
-// =====================
-function mostrarCadastro() {
-  document.getElementById("login-box").style.display = "none";
-  document.getElementById("cadastro-box").style.display = "block";
-}
-
-function mostrarLogin() {
-  document.getElementById("cadastro-box").style.display = "none";
-  document.getElementById("login-box").style.display = "block";
-}
-
-// =====================
 // LOGIN
-// =====================
 async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -38,16 +21,15 @@ async function login() {
     return;
   }
 
-  document.getElementById("login-box").style.display = "none";
-  document.getElementById("dashboard").style.display = "block";
+  alert("Login realizado!");
+  // window.location.href = "dashboard.html";
 }
 
-// =====================
 // CADASTRO
-// =====================
 async function cadastrar() {
   const email = document.getElementById("email_cadastro").value;
   const password = document.getElementById("password_cadastro").value;
+
   const teamName = document.getElementById("team_name").value;
   const cpf = document.getElementById("cpf").value;
   const whatsapp = document.getElementById("whatsapp").value;
@@ -69,13 +51,11 @@ async function cadastrar() {
     whatsapp
   });
 
-  alert("Cadastro criado! Agora faça login.");
-  mostrarLogin();
+  alert("Conta criada! Faça login.");
+  window.location.href = "index.html";
 }
 
-// =====================
-// RESET DE SENHA (EMAIL)
-// =====================
+// RESET SENHA
 async function resetarSenha() {
   const email = document.getElementById("email").value;
 
@@ -91,12 +71,4 @@ async function resetarSenha() {
   } else {
     alert("Email de redefinição enviado!");
   }
-}
-
-// =====================
-// LOGOUT
-// =====================
-async function logout() {
-  await supabase.auth.signOut();
-  location.reload();
 }
