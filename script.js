@@ -4,13 +4,13 @@ const supabase = window.supabase.createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvbnllaGlqZWFuem9jY3N0bnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTc4NTQsImV4cCI6MjA4NTEzMzg1NH0.sr4s9wikoDlvodcLw-RGGqHozrezwcSjfHlThv316aE"
 );
 
-// ELEMENTOS (podem ou não existir)
+// ELEMENTOS
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const message = document.getElementById("message");
 const loading = document.getElementById("loading");
 
-// BOTÕES (checagem segura)
+// BOTÕES (só conecta se existir)
 const btnLogin = document.getElementById("btnLogin");
 const btnRegister = document.getElementById("btnRegister");
 const btnReset = document.getElementById("btnReset");
@@ -49,7 +49,6 @@ async function login() {
     showError("E-mail ou senha inválidos");
   } else {
     showSuccess("Login realizado com sucesso!");
-    // futuramente: window.location.href = "dashboard.html";
   }
 }
 
@@ -72,7 +71,7 @@ async function register() {
   }
 }
 
-// RESET
+// RESET DE SENHA
 async function resetPassword() {
   if (!emailInput.value) {
     showError("Informe seu e-mail");
