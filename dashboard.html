@@ -1,20 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<title>Painel Geral</title>
-<script type="module" src="dashboard.js"></script>
+  <meta charset="UTF-8" />
+  <title>🎩 Bolão Cartola – Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h2>Usuários</h2>
-<table border="1">
-<thead>
-<tr>
-<th>Email</th>
-<th>Pagou?</th>
-</tr>
-</thead>
-<tbody id="users"></tbody>
-</table>
+
+  <div class="container">
+    <h1>📊 Dashboard do Bolão</h1>
+
+    <p id="userEmail"></p>
+
+    <hr>
+
+    <h3>Participantes</h3>
+
+    <table width="100%">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="participants">
+        <tr>
+          <td>Time Exemplo</td>
+          <td style="color:red">Aguardando</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button id="logout">Sair</button>
+  </div>
+
+  <script type="module" src="dashboard.js"></script>
 </body>
 </html>
